@@ -19,7 +19,7 @@ Various code samples discussed here can be found on GitHub.
 ## Inheritance & polymorphism 
 ## 继承和多态
 These are features that are sometimes useful, but by no means the first things to reach for. It is entirely possible to write C++ that never uses any kind of inheritance. In other words, there is no pressure or need to be “all object oriented”.   
-有时候许多很有用的特性我们不会第一时间接触到。在我们用 C++ 的时候不使用任何继承完全是有可能的。换句话说，我们没必要让所有程序都 “面对对象”。  
+有时候许多很有用的特性我们不会第一时间接触到。在我们用 C++ 的时候不使用任何继承完全是有可能的。换句话说，我们没必要让所有程序都 “面向对象”。  
 
 
 But, it does have its uses. For example, an event-processing library may have to deal with arbitrary kinds of events, all of which have to pass through a single API. It works like this:   
@@ -158,10 +158,10 @@ Some discussion on pointers versus references can be found [here](http://hubicka
 ## Templates 
 ## 模板   
 As noted in [part 1](https://ds9a.nl/articles/posts/c++-1), C++ was designed with the “Zero Overhead” principle in mind, which in its second part states “[no] feature [should] be added for which the compiler would generate code that is not as good as a programmer would create without using the feature”. This is a bold statement.    
-正如 [第一部分](https://ds9a.nl/articles/posts/c++-1) 所说，C++ 是以 “零开销” 为原则设计的，在第二部分提到过 “任何添加到 C++ 中的特性都不会让任何已有的代码（不使用新特性的代码）变长或变慢，如果编译器产生的代码比程序员不使用这些特性手写的代码性能差的话，就不应该添加这项特性。”。这是一个大胆的声明。  
+正如 [第一部分](https://ds9a.nl/articles/posts/c++-1) 所说，C++ 是以 “零开销” 为原则设计的，在第二部分提到过 “任何添加到 C++ 中的特性都不会导致已有的代码（不使用新特性的代码）占用更多的空间或是运行速度变慢，如果编译器产生的代码比程序员不使用这些特性手写的代码性能要差的话，就不应该添加这项特性”。这是一个大胆的声明。  
 
 Most programming languages called “Object Oriented” have made all objects descend (or inherit) from a magic Object base class. This means that to write a container in such a language means writing a data structure that hosts `Object` instances. If we store an `ICMPEvent` in there, we do so as an `Object`.  
-大多数声称面对对象的编程语言都让所有对象从一个魔术基类派生（或者继承）。在这种语言中写一个容器意味着写一个能够容纳 `Object` 实例的数据结构。如果我们在其中存储一个 `ICMPEvent` 实例，我们也可以存储一个 `Object` 实例。  
+大多数声称面向对象的编程语言都让所有对象从一个魔术基类派生（或者继承）。在这种语言中写一个容器意味着写一个能够容纳 `Object` 实例的数据结构。如果我们在其中存储一个 `ICMPEvent` 实例，我们也可以存储一个 `Object` 实例。  
 
 A problem with this technique is that for C++, it violates the “Zero Overhead” principle. Storing a billion 32 bit numbers in C uses 4GB of memory. Storing a billion `Object` instances will use no less than 16GB - and likely more.  
 这种技术有一个问题那就是对于 C++ 来说，它违背了 “零开销” 原则。在 C 语言中存储 10 亿 32 位整数使用了 4GB 内存。存储 10 亿 `Object` 实例需要使用多达 16GB 内存 - 甚至更多。
@@ -243,7 +243,7 @@ This code compiles down to be as efficient as if you had written `a.uid < b.uid`
 
 
 Based on these templates, C++ offers an [array of powerful containers](https://en.cppreference.com/w/cpp/container) to store data in. Each of these containers comes with an API but also with a performance (scaling) guarantee. This in turn makes sure that implementors have to use state of the art algorithms - and they do.   
-基于这些模板， C++ 提供 [有效容器的集合]() 来存储数据。每一个容器都有一个保证性能指标的的 API 。这反过来有确保了实现者必须使用高效的算法 - 他们也确实是这样做的。 
+基于这些模板， C++ 提供 [有效容器的集合](https://en.cppreference.com/w/cpp/container) 来存储数据。每一个容器都有一个保证性能指标的的 API 。这反过来有确保了实现者必须使用高效的算法 - 他们也确实是这样做的。 
 
 **Note:** This also means none of the sample code above should ever see production - [`std::vector`](https://en.cppreference.com/w/cpp/container/vector) and the associated [`std::is_sorted`](https://en.cppreference.com/w/cpp/algorithm/is_sorted) are already there and do a far better job.  
 ** 注意：** 这也意味着上面样例代码没有一个应该出现在实际产品中 - [`std::vector`](https://en.cppreference.com/w/cpp/container/vector) 和相关的 [`std::is_sorted`](https://en.cppreference.com/w/cpp/algorithm/is_sorted) 都已经实现了，并且性能比我们手写的更好。  
@@ -274,6 +274,7 @@ int main(int argc, char** argv)
 		filenames.push_back(line);
 
 	cout<<"Have "<<filenames.size()<<" files"<<endl;
+}
 ```
 
 We read a file with filenames to index into a `std::vector`. Earlier I noted the C++ `iostreams` are in no way mandatory and that you can continue to use C `stdio`, but in this case `iostreams` are a convenient way to read lines of text of arbitrary length.     
