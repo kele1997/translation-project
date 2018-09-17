@@ -5,7 +5,7 @@ In this probably final part 5, we’ll be going over some of the most powerful s
 ## 内存管理
 
 Memory is frequently the most important factor determining a program’s speed and reliability. CPUs these days tend to be tremendously faster than their attached RAM, so preventing needless copies and fragmented memory access may deliver whole orders of magnitude improvements in speed.   
-内存管理通常来说是决定一个程序运行速度和可靠性的重要因素。目前的 CPU 比起与它们相连的 RAM 速度快的多得多，因此如果能够防止不必要的拷贝和内存碎片访问，程序的运行速度将会带来巨大的提升。  
+内存管理通常来说是决定一个程序运行速度和可靠性的重要因素。目前的 CPU 比起与它们相连的 RAM 速度快的多得多，因此如果能够防止不必要的拷贝和内存碎片访问，程序的运行速度将会有巨大的提升。  
 
 The authors of C++ were well aware of this and have delivered functionality that makes it possible to pass around or construct objects “in place”, thus saving a lot of memory bandwidth.  
 C++ 的作者意识到了这一点，并且提交了一些功能，这些功能可以使得 C++ 可以“原地”传递和创建对象，从而节省大量的内存带宽。  
@@ -65,7 +65,7 @@ In part 2 we touched on smart pointers. We also noted that memory leaks are the 
 在[第二部分](https://ds9a.nl/articles/posts/cpp-2)我们接触到了智能指针。我们也注意到内存泄露是所有项目的灾难，这大概也是用纯 C 语言编写代码最让人头疼的事情。我认识的 C （和 C++) 程序员都曾在解决隐蔽的内存泄露的问题上花过至少一个周的痛苦时间。  
 
 These problems are so large that most modern programming languages decided to incur a significant amount of overhead to implement garbage collection (GC). GC is amazing when it works, and especially lately, the overhead is now at least manageable. But as of 2018, all environments still struggle with hick-ups caused by GC runs, which always tend to happen exactly when you don’t want them to. And to be fair, this is a very difficult problem to solve, especially when many threads are involved.   
-这些问题太严重了以至于现代编程语言决定以牺牲大量开销为代价来实现垃圾回收（GC)。GC 在开始使用的时候非常神奇的，特别是刚刚应用的那段时间，开销还处于可控状态。但是在 2018 年，所有环境都在和 GC 运行造成的混乱做斗争，这种情况通常会在你想不到的时候发生。公平来说，这是个非常难解决的问题，特别是当涉及许多线程的时候。  
+这些问题太严重了以至于现代编程语言决定以牺牲大量开销为代价来实现垃圾回收（GC)。GC 在开始使用的时候非常神奇的，特别是刚刚应用的那段时间，开销还处于可控状态。但是在 2018 年，所有环境都在和 GC 运行造成的混乱做斗争，这种情况通常会在你想不到的时候发生。公平来说，这是个非常难解决的问题，特别是当涉及多线程的时候。  
 
 C++ has therefore not implemented garbage collection. Instead, there is a judicious [selection of smart pointers](https://en.cppreference.com/w/cpp/memory) that perform their own cleanup. In [part 2](https://ds9a.nl/articles/posts/cpp-2) we described std::shared_ptr as “the most do what I mean” smart pointer available, and this is true.   
 因此 C++ 目前为止并没有实现垃圾回收。相反，它明智地选择了[一种智能指针](https://en.cppreference.com/w/cpp/memory)，这种指针可以完成它们自己的清理工作。在[第二部分](https://ds9a.nl/articles/posts/cpp-2)中我们把 `std::shared_ptr` 描述为“最合心意”的智能指针，这是完全正确的。   
@@ -80,7 +80,7 @@ The question of course is: can we do better?
 ## 简介：std::unique_ptr  
 
 The overhead of generic reference counted pointer was well known when C++ took its initial standardized form. Back then, a quirky smart pointer called [std::auto_ptr](https://en.cppreference.com/w/cpp/memory/auto_ptr) was defined, but it turned out that within the C++ of 1998 it was not possible to create something useful. Making “the perfect smart pointer” required features that only became available in C++ 2011.   
-当 C++ 采用最初的标准化形式时，普通的引用计数指针的开销是非常出名的。那时，一个叫做 [`std::auto_ptr`](https://en.cppreference.com/w/cpp/memory/auto_ptr) 的古怪的智能指针被定义出来，但结果就是在 1998 年的 C++ 中，根本不可能创造出有用的东西。创造“完美的智能指针”所需要的特性直到 2011 年 C++ 才能提供。
+当 C++ 采用最初的标准化形式时，普通的引用计数指针的开销是非常出名的。那时，一个叫做 [`std::auto_ptr`](https://en.cppreference.com/w/cpp/memory/auto_ptr) 的古怪的智能指针被定义出来，但结果就是在 C++(98)中，我们根本不可能利用它创造出有用的东西。创造“完美的智能指针”所需要的特性直到 2011 年 C++ 才能提供。
 
 First, let us try some simple things [(source on GitHub)](https://github.com/ahupowerdns/hello-cpp/blob/master/move.cc):  
 首先，让我们尝试一些简单的东西 [（Github 上的源代码）](https://github.com/ahupowerdns/hello-cpp/blob/master/move.cc)：  
@@ -131,7 +131,7 @@ std::unique_ptr<uint32_t> uptr = std::unique_ptr<uint32_t>(new uint32_t(42));
 >通常来说，我偏爱使用 `std::make_*` 这种形式来使用智能指针。对于 `std::shared_ptr` 来说，它把两次内存分配变成了一次，这在 CPU 周期和内存消耗上是一个巨大的胜利。  
 
 It should be noted that std::unique_ptr may be a smart pointer, but it is not a generic reference counted pointer. Or, to put it more precisely, there is always exactly one place that owns a std::unique_ptr. This is the magic of why there is no overhead: there is no reference count to store, it is always ‘1’.    
-应该指出的是 `std::unique_ptr` 可能也是一个智能指针，但它不是一个普通的引用计数指针。或者，更准确的说，应该有一个位置是属于 `std::unique_ptr` 的。 这就是为什么没有额外开销的原因：不需要保存引用计数器，因为引用计数永远是 ‘1’。  
+应该指出的是 `std::unique_ptr` 可能也是一个智能指针，但它不是一个普通的引用计数指针。或者，更准确的说，总有一个指针指向 `std::unique_ptr` 。 这就是为什么没有额外开销的原因：不需要保存引用计数器，因为引用计数永远是 ‘1’。  
 
 std::unique_ptr cleans up only when it goes out of scope, or when it is reset or replaced.  
 `std::unique_ptr` 只有在超出作用域或是重置，或是被替换的时候，才进行清理工作。
@@ -330,8 +330,8 @@ This does two things:
 1. Allocate memory to store a SmartFP instance 
 2. Call the SmartFP constructor using that memory  
 
-1. 分配内存来存储一个 `SmartFP` 对象
-2. 调用 `SmartFP` 构造函数使用这段内存
+3. 分配内存来存储一个 `SmartFP` 对象
+4. 调用 `SmartFP` 构造函数使用这段内存
 
 Generally this is what we need. However, sometimes our memory arrives from elsewhere but we’d still like to construct objects on there. Enter placement new.  
 通常来说这就是我们想要的结果。然而，有时候我们的内存是来自于别处的，但是我们想在这段内存中创建对象。这时就引入了 `placement new` 运算符。  
