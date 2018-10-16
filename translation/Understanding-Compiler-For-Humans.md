@@ -16,7 +16,7 @@ Understanding Compilers — For Humans (Version 2) is a successor to my seco
 
 
 I chose Rust as this work’s primary language. It is verbose, efficient, modern, and seems, by design, to be really simple for making compilers. I enjoyed using it. [https://www.rust-lang.org/](https://www.rust-lang.org/)    
-我选择 Rust 作为这篇文章的主要语言。它是一种冗长的、高效的、现代的而且看起来特意使得设计编译器变得简单。我很喜欢使用它。  [https://www.rust-lang.org/](https://www.rust-lang.org/)
+我选择 Rust 作为这篇文章的主要语言。它是一种详尽的、高效的、现代的而且看起来特意使得设计编译器变得简单。我很喜欢使用它。  [https://www.rust-lang.org/](https://www.rust-lang.org/)
 
 This article is written for the goal of keeping the reader’s attention, and to not have 20 pages of mind numbing reading. There are many links in the text that will guide you to resources that go deeper on topics that intrigue you. Most links direct you to Wikipedia.    
 写这篇文章的目的主要是吸引读者的注意力，而不是提供 20 多页的令人头皮发麻的阅读材料。对于那些你感兴趣的更深层次的话题，文章中有许多链接会引导你找到相关的资料。大多数链接到维基百科 。
