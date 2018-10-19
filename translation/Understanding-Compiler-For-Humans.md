@@ -1,5 +1,5 @@
 # Understanding Compilers — For Humans (Version 2)
-# 理解编译器 -为人类准备的（版本2）
+# 人人都能读懂的编译器原理
 How Programming Languages Work
 编程语言是怎样工作的
 
@@ -70,7 +70,7 @@ In short, compilers take source code and produce binary. Since it would be prett
 4. 最后一步遍历表达式树中的所有运算符，产生相应的二进制数据。
 
 While I say the compiler immediately goes from a tree of operations to binary, it actually generates assembly code, which is then assembled/compiled into binary. Assembly is like a higher-level, human-readable binary. Read more about what assembly is here.   
-尽管我说编译器直接从表达式树转换到二进制，但实际上它会产生汇编代码，之后汇编代码会被汇编/编译到二进制数据。汇编程序是一种高级的、人类可读的二进制。更多关于汇编语言的阅读资料在这里。
+尽管我说编译器直接从表达式树转换到二进制，但实际上它会产生汇编代码，之后汇编代码会被汇编/编译到二进制数据。汇编程序就好比是一种高级的、人类可读的二进制。更多关于汇编语言的阅读资料在[这里](https://en.wikipedia.org/wiki/Assembly_language)。
 
 ![](https://cdn-images-1.medium.com/max/1600/1*ttOYPPL-XJIf4zVZQUBzsQ.jpeg)  
 
@@ -78,7 +78,7 @@ While I say the compiler immediately goes from a tree of operations to binary, i
 ### 解释器是什么
 
 [Interpreters](https://en.wikipedia.org/wiki/Interpreter_%28computing%29) are much like compilers in that they read a language and process it. Though, **interpreters skip code generation and execute the AST [just-in-time](https://en.wikipedia.org/wiki/Just-in-time_compilation).** The biggest advantage to interpreters is the time it takes to start running your program during debug. A compiler may take anywhere from a second to several minutes to compile a program, while an interpreter begins running immediately, with no compilation. The biggest downside to an interpreter is that it requires to be installed on the user’s computer before the program can be executed.   
-[解释器](https://en.wikipedia.org/wiki/Interpreter_%28computing%29) 非常像编译器，它也是读入编程语言的代码，然后处理这些代码。尽管如此，**解释器会跳过了代码生成，然后即时编译并执行 AST。** 解释器最大的优点就在于在你 debug 期间运行程序所消耗的时间。编译器编译一个程序可能在一秒到几分钟不等，然而解释器可以立即开始执行程序，而不必编译。解释器最大的缺点在于它必须安装在用户电脑上，程序才可以执行。  
+[解释器](https://en.wikipedia.org/wiki/Interpreter_%28computing%29) 非常像编译器，它也是读入编程语言的代码，然后处理这些代码。尽管如此，**解释器会跳过了代码生成，然后[即时编译](https://en.wikipedia.org/wiki/Just-in-time_compilation)并执行 AST。** 解释器最大的优点就在于在你 debug 期间运行程序所消耗的时间。编译器编译一个程序可能在一秒到几分钟不等，然而解释器可以立即开始执行程序，而不必编译。解释器最大的缺点在于它必须安装在用户电脑上，程序才可以执行。  
 
 ![](https://cdn-images-1.medium.com/max/1600/1*QFH7Zl7s3vQJjBNjhTO1kg.jpeg)  
 
@@ -95,7 +95,7 @@ Let’s say you were lexing a string like 12+3: it would read the characters 1, 
 
 ![](https://cdn-images-1.medium.com/max/1600/1*D9FGqfO5JjSX9ZYERX9M5A.jpeg)   
 If you can see code and make more meaning of it that way, then the following Rust tokenizer can group digits into 32-bit integers, and plus signs as the Token value Plus.   
-如果你可以看了上面的代码，并且弄懂了这样做的含义，接下来的 Rust 分词器会组合数字为32位整数，加号就最后了标记值 Plus（加）.
+如果你可以阅读过上面的代码，并且弄懂了这样做的含义，接下来的 Rust 分词器会组合数字为32位整数，加号就最后了标记值 Plus（加）.
 
 [rust playground](https://play.rust-lang.org/?gist=070c3b6b985098a306c62881d7f2f82c&version=stable&mode=debug&edition=2015)
 
@@ -180,7 +180,7 @@ https://play.rust-lang.org/?gist=1587a5dd6109f70cafe68818a8c1a883&version=nightl
 
 ![](https://cdn-images-1.medium.com/max/1600/1*OGlmE7PLYnK0H_apbU0kcg.gif)  
 <center>Scanner (a.k.a. lexer) and parser example for C. Starting from the sequence of characters "if(net>0.0)total+=net*(1.0+tax/100.0);", the scanner composes a sequence of tokens, and categorizes each of them, e.g. as identifier, reserved word, number literal, or operator. The latter sequence is transformed by the parser into a syntax tree, which is then treated by the remaining compiler phases. The scanner and parser handles the regular and properly context-free parts of the grammar for C, respectively. Credit: Jochen Burghardt. [Origina](https://commons.wikimedia.org/wiki/File:Xxx_Scanner_and_parser_example_for_C.gif).  </center>  
-<center>用 C 语言写的扫描器（又叫做词法分析器）和解析器样例。从字符序列的开始 "if(net>0.0)total+=net*(1.0+tax/100.0);",扫描器组成了一系列标记，并且对它们进行分类，例如，标识符，保留字，数字，或者运算符。后者的序列由解析器转换成语法树，然后由其他的编译器分阶段进行处理。扫描器和解析器分别处理 C 语法中的规则和与上下文无关的部分。引自：Jochen Burghardt.[来源](https://commons.wikimedia.org/wiki/File:Xxx_Scanner_and_parser_example_for_C.gif).</center>    
+<center>针对 C 语言语法编写的解析器（又叫做词法分析器）和解析器样例。从字符序列的开始 "if(net>0.0)total+=net*(1.0+tax/100.0);",扫描器组成了一系列标记，并且对它们进行分类，例如，标识符，保留字，数字，或者运算符。后者的序列由解析器转换成语法树，然后由其他的编译器分阶段进行处理。扫描器和解析器分别处理 C 语法中的规则和与上下文无关的部分。引自：Jochen Burghardt.[来源](https://commons.wikimedia.org/wiki/File:Xxx_Scanner_and_parser_example_for_C.gif).</center>    
 
 ## 3. Generating Code 
 ## 3. 生成代码
@@ -235,7 +235,7 @@ When you understand compilers, you can work more efficiently with your programmi
 ## Resources & Further Reading 
 ## 资源&更深入的阅读资料
 * http://craftinginterpreters.com/ — guides you through making an interpreter in C and Java.  
-* [http://craftinginterpreters.com/](http://craftinginterpreters.com/) - 知道你编写一个 C 和 Java 的解释器。
+* [http://craftinginterpreters.com/](http://craftinginterpreters.com/) - 指导你编写一个 C 和 Java 的解释器。
 * https://norasandler.com/2017/11/29/Write-a-Compiler.html — probably the most beneficial “writing a compiler” tutorial for me.
 * [https://norasandler.com/2017/11/29/Write-a-Compiler.html](https://norasandler.com/2017/11/29/Write-a-Compiler.html) - 大概是对我来说最有用的 “编写编译器” 的教程了
 * My C compiler and scientific calculator parser can be found [here](https://github.com/asmoaesl/ox) and [here]((https://github.com/asmoaesl/rsc)).  
