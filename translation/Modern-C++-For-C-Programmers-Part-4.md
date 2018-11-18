@@ -57,11 +57,16 @@ for_each(v.begin(), v.end(), [&prefix](const auto& a) {
 	cout << prefix + a << endl;
 }); // outputs hi 9, hi 12, hi 13 etc
 ```
+
+
 The first line employs the fun initializers that allow modern C++ to quickly fill containers. The second line creates a prefix string. Finally the third line uses the C++ algorithm for_each to iterate over the container.   
+第一行使用了有趣的初始化函数，允许现代的 C++ 程序员快速填充容器。第二行创建了一个前缀字符串。最后三行使用 C++ 算法 `for_each` 来迭代容器。 
 
-The prefix variable is ‘captured by reference’. For passing the parameters, const auto& a could also have been const std::string&. Finally we print the prefix and the container member.
+The prefix variable is ‘captured by reference’. For passing the parameters, const auto& a could also have been const std::string&. Finally we print the prefix and the container member.  
+前缀变量是 ‘通过引用捕捉’。因为是传递参数，所以 `const auto& a` 也可以写作 `const std::string&` 。最后我们输出前缀和容器成员。  
 
-To sort this vector of strings numerically, we could do:  
+To sort this vector of strings numerically, we could do:   
+为了按照数字序（numerically）对 vector 容器中的字符串进行排序，我们可以这样做：  
 
 
 ```c++
@@ -73,6 +78,7 @@ To sort this vector of strings numerically, we could do:
 
 
 A lambda creates an actual object, albeit one of unspecified type:  
+lambda 表达式中创建了一个对象，尽管没有指定类型（译者：应该是返回值）：  
 
 ```c++
   auto print = [](const vector<std::string>& c) {
@@ -85,16 +91,19 @@ A lambda creates an actual object, albeit one of unspecified type:
 ```
 
 We have now stored a lambda in print, and we can pass this around and use it later on too. But what is print? If we ask a debugger, it may tell us:  
+我们现在已经把一个 lambda 表达式保存到了 `print` 变量，我们可以在稍后把它作为变量传递或者直接使用它。但 `print` 到底**是**什么呢？如果我们通过调试器查询的话，它可能告诉我们这样的结果：   
 
 ```
 (gdb) ptype print
 struct <lambda(const std::vector<std::string>&)> {}  
 ```
 
-Depending on what gets captured, the type becomes ever more exotic. It is for this reason that lambdas are usually passed via auto or with generics.  
+Depending on what gets captured, the type becomes ever more exotic. It is for this reason that lambdas are usually passed via auto or with generics.    
+根据捕捉的变量，类型变得更加奇怪。正是因为如此， lambda 表达式通常通过 `auto` 或者泛型进行传递参数。   
 
 
-When there is a need to store a lambda, or anything callable actually, there is std::function:  
+When there is a need to store a lambda, or anything callable actually, there is std::function:    
+当需要存储一个 lambda 表达式或者任何可以调用的对象的时候，我们可以使用 `std::function`:  
 
 
 ```c++
@@ -103,7 +112,8 @@ std::function<void(const vector<std::string>&)> stored = print;
   stored(v); // same as print(v)  
 ```
 
-Note that we can also do this:  
+Note that we can also do this:    
+注意我们也可以这样做：   
 
 ```c++
 void print2(const vector<string>& vec)
@@ -116,11 +126,14 @@ void print2(const vector<string>& vec)
 std::function<void(const vector<std::string>&)> stored = print2;
 ```
 
-std::function can store other callable things too, like objects with operator() defined. The downside of std::function is that it is not as fast as calling a function or invoking a lambda directly , so when possible, try doing that.
+std::function can store other callable things too, like objects with operator() defined. The downside of std::function is that it is not as fast as calling a function or invoking a lambda directly , so when possible, try doing that.  
+`std::function` 也可以存储其他可调用的东西，例如重载了 `operator()` 的对象。`std::function` 的缺点就在于它的速度比直接调用函数或者使用 lambda 表达式慢。因此如果可能的话，尽可能使用 lambda 表达式。
 
-A lambda used inside a class can capture [this] which means it gains access to class members.
+A lambda used inside a class can capture `[this]` which means it gains access to class members.   
+在类内部使用 lambda 表达式可以捕捉 `[this]` ,这表示 lambda 表达式获得类成员的访问权。  
 
-To further promote C interoperability, a lambda decays into a plain C function pointer if it doesn’t capture anything, leading to the ability to do this:  
+To further promote C interoperability, a lambda decays into a plain C function pointer if it doesn’t capture anything, leading to the ability to do this:    
+为了进一步提高 C 语言的可兼容性，如果没有捕捉任何变量的话，lambda 表达式会退化为普通的函数指针，因此能够执行下面的操作：  
 
 ```c++
   std::vector<int> v2{3, -1, -4, 1, -5, -9, -2, 6, -5};
