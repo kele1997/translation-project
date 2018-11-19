@@ -78,7 +78,7 @@ To sort this vector of strings numerically, we could do:
 
 
 A lambda creates an actual object, albeit one of unspecified type:  
-lambda 表达式中创建了一个对象，尽管没有指定类型（译者：应该是返回值）：  
+lambda 表达式中创建了一个对象，尽管没有指定类型（译者：这个对象应该是返回值）：  
 
 ```c++
   auto print = [](const vector<std::string>& c) {
@@ -156,7 +156,7 @@ In general, lambdas are awesome but best used for small, inline, constructs. If 
 ## Expanding our indexer
 ## 扩展我们的索引器  
 In the indexer from [part 3](https://ds9a.nl/articles/posts/cpp-3) we ended up with:   
-在第三部分的索引器中我们以下面的代码作为结尾：    
+在[第三部分](https://ds9a.nl/articles/posts/cpp-3)的索引器中我们以下面的代码作为结尾：    
 
 ```c++
 struct Location
@@ -294,7 +294,7 @@ C ++附带了 [许多有用的算法]（https://en.cppreference.com/w/cpp/algori
 
 
 Meanwhile, algorithms like [std::inplace_merge](https://en.cppreference.com/w/cpp/algorithm/inplace_merge) and [std::next_permutation](https://en.cppreference.com/w/cpp/algorithm/next_permutation) may prevent you from having to whip out the Knuth books.  
-同时，像是 [std :: inplace_merge](https://en.cppreference.com/w/cpp/algorithm/inplace_merge) 和 [std :: next_permutation](https://en.cppreference.com/w/cpp/algorithm/next_permutation) 这样的算法可以防止你不得不掏出唐纳德的书。
+同时，像是 [std::inplace_merge](https://en.cppreference.com/w/cpp/algorithm/inplace_merge) 和 [std::next_permutation](https://en.cppreference.com/w/cpp/algorithm/next_permutation) 这样的算法可以防止你不得不掏出唐纳德的书。
 
 
 Before doing any kind of data manipulation or analysis, I urge you to [go through the list](https://en.cppreference.com/w/cpp/algorithm) of existing algorithms, you will likely find things there that get you most of the way.  
@@ -306,13 +306,13 @@ Before doing any kind of data manipulation or analysis, I urge you to [go throug
 As an example, recall that we made a sorted list of words so we could do prefix lookups. All words ended up in std::vector<string> owords. We can interrogate this flat (and hence very efficient) container in several ways:  
 举个例子，假设我们已经生成了一个排好序的单词列表，现在我们要进行前缀查找。 所有单词最后都存放在 `std :: vector <string> owords` 容器中。 我们可以通过以下几种方式询问这个线性（因此非常有效）的容器：
 
-* std::binary_search(begin, end, value) will let you know if a value is in there.
-* std::equal_range(begin, end, value) returns a pair of iterators which span all exactly matching entries.
-* std::lower_bound(begin, end, value) returns an iterator that points to the first place value could be inserted without changing the sorting order. upper_bound returns the last iterator where that is true.
+* [std::binary_search(begin, end, value)](https://en.cppreference.com/w/cpp/algorithm/binary_search) will let you know if a value is in there.
+* [std::equal_range(begin, end, value)](https://en.cppreference.com/w/cpp/algorithm/equal_range) returns a pair of iterators which span all exactly matching entries.
+* [std::lower_bound(begin, end, value)](https://en.cppreference.com/w/cpp/algorithm/lower_bound) returns an iterator that points to the first place value could be inserted without changing the sorting order. upper_bound returns the last iterator where that is true.
 
-* `std::binary_search(begin, end, value)` 可以让你知道容器中是否有这个值
-* `std::equal_range(begin, end, value)` 返回一对迭代器，分别位于满足条件的数据序列的开头和结尾  
-* `std::lower_bound(begin, end, value)` 返回一个迭代器，指向插入数据之后不会破坏当前排序的第一个位置。`upper_bound` 返回最后一个位置，其余的和 `lower_bound` 一样。
+* [std::binary_search(begin, end, value)](https://en.cppreference.com/w/cpp/algorithm/binary_search) 可以让你知道容器中是否有这个值
+* [std::equal_range(begin, end, value)](https://en.cppreference.com/w/cpp/algorithm/equal_range) 返回一对迭代器，分别位于满足条件的数据序列的开头和结尾  
+* [std::lower_bound(begin, end, value)](https://en.cppreference.com/w/cpp/algorithm/lower_bound) 返回一个迭代器，指向插入数据之后不会破坏当前排序的第一个位置。`upper_bound` 返回最后一个位置，其余的和 `lower_bound` 一样。
 
 As long as we don’t have multiple equivalent entries in our container, lower_bound and upper_bound are the same. To list all words starting with main from our sorted vector owords, we can do:  
 只要我们的容器中没有多个相等的数据，`lower_bound` 和 `upper_bound` 结果就是一样的。 要从已排好序的 vector 容器中列出所有以 `main` 开头的单词，我们可以这样做：  
@@ -346,10 +346,10 @@ There are several other useful containers:
 * std::multimap and std::multiset. These work just like regular set and map, but then allowing multiple equivalent keys. This means these containers can’t be queried with [] since that only supports a single key.
 * std::deque. A double-ended queue which is a great workhorse for implementing any kind of queue. Storage is not consecutive, but popping and pushing elements from either end is fast.   
 
-* `std::map` 有序 map 容器，你可以传入一个比较函数，比如你需要得到大小写敏感的顺序。你遇到的大多数情况都不必使用 `std::map`。这是因为在 2011 年之前,C++ 还没有未排序容器。当你需要排序的时候，排序容器是非常完美的，但是目前来说是不必要的，因为会产生不必要的开销。   
-* `std::set`。这个容器有点像 `std::map<string,void>` ,换句话说，它可以看做没有值的键值对存储。像 `std::map` 这样有序的容器，通常来说你不需要。幸运的是还有一个 `std::unordered_set` 容器。
-* `std::multimap` 和 `std::multiset` 。它们使用起来和普通的 `set` 和 `map` 一样，但是允许多个相同的键值。这意味着这些容器不能使用 `[]` 运算符进行查询，因为这个运算符只支持一个键。
-* `std::deque`。双端队列，可以用来实现完美地实现各种队列。存储位置不是连续的，但从队列的任意一端出栈和入栈都很快。  
+* [std::map](https://en.cppreference.com/w/cpp/container/map) 有序 map 容器，你可以传入一个比较函数，比如你需要得到大小写敏感的顺序。你遇到的大多数情况都不必使用 `std::map`。这是因为在 2011 年之前,C++ 还没有未排序容器。当你需要排序的时候，排序容器是非常完美的，但是目前来说是不必要的，因为会产生不必要的开销。   
+* [std::set](https://en.cppreference.com/w/cpp/container/set)。这个容器有点像 `std::map<string,void>` ,换句话说，它可以看做没有值的键值对存储。像 `std::map` 这样有序的容器，通常来说你不需要。幸运的是还有一个 `std::unordered_set` 容器。
+* [std::multimap](https://en.cppreference.com/w/cpp/container/multimap) 和 [std::multiset](https://en.cppreference.com/w/cpp/container/multiset) 。它们使用起来和普通的 `set` 和 `map` 一样，但是允许多个相同的键值。这意味着这些容器不能使用 `[]` 运算符进行查询，因为这个运算符只支持一个键。
+* [std::deque](https://en.cppreference.com/w/cpp/container/deque)。双端队列，可以用来实现完美地实现各种队列。存储位置不是连续的，但从队列的任意一端出栈和入栈都很快。  
 
 A full list of standard containers can be found [here](https://en.cppreference.com/w/cpp/container)  
 标准容器的完整列表可以在[这里](https://en.cppreference.com/w/cpp/container) 找到   
@@ -366,7 +366,7 @@ But the good news is, most of Boost is pretty modular: it is not a framework kin
 但好消息是，Boost 的大部分代码都是模块化的：它并不像是类似于库的框架，如果你想使用一部分，你就必须使用全部。事实上，许多最有趣的部分仅需要 include 就可以使用了(include-only)，不必再链接库。Boost 是通用的，并且免费许可。   
 
 First up is the Boost Container library, which is not a library but a set of includes. This offers niche containers that are mostly completely compatible with standard library containers, but offer specific advantages if they match your usecase.  
-首先是 Boost 容器库，它其实不是一个库，而是许多 include 的集合。它提供了一些容器，这些容器大多可以完全和标准库容器兼容，但是一旦它们可以满足你的需求，它们还会提供许多特定的优势。    
+首先是 [Boost 容器库](https://www.boost.org/doc/libs/1_67_0/doc/html/container/non_standard_containers.html)，它其实不是一个库，而是许多 include 的集合。它提供了一些容器，这些容器大多可以完全和标准库容器兼容，但是一旦它们可以满足你的需求，它们还会提供许多特定的优势。    
 
 For example, boost::container::flat_map (and set) are like std::map and std::set except they use contiguous slabs of memory for cache efficiency. This makes them slow on inserts, but lightning fast on lookups.  
 例如， `boost::container::flat_map`(和 `set`) 就像是 `std::map` 和 `std::set` 一样，不过 boost 库中使用了连续的内存块来提高缓存效率。这使得它们在插入时速度变慢，但是在查找时却非常快。   
@@ -380,8 +380,8 @@ Lots more Boost containers can be found [here](https://www.boost.org/doc/libs/?v
 ### Boost.MultiIndex
 ### Boost.MultiIndex
 
-Secondly, in part 1 of this series I promised I’d stay away from exotics and “template metaprogramming”. But there is one pearl I must share with you, something I regard as the golden standard by which I measure programming languages. Is the language powerful enough to implement Boost.MultiIndex?
-其次，在这个系列的第一部分我许诺说我会远离那些奇异的东西和“模板元编程”。但有一点东西我必须介绍给你，我认为这是衡量编程语言的黄金准则。该语言是否足够强大到可以实现 Boost.MultiIndex?    
+Secondly, in part 1 of this series I promised I’d stay away from exotics and “template metaprogramming”. But there is one pearl I must share with you, something I regard as the golden standard by which I measure programming languages. Is the language powerful enough to implement [Boost.MultiIndex](https://www.boost.org/doc/libs/1_67_0/libs/multi_index/doc/index.html)?
+其次，在这个系列的第一部分我许诺说我会远离那些奇异的东西和“模板元编程”。但有一点东西我必须介绍给你，我认为这是衡量编程语言的黄金准则。该语言是否足够强大到可以实现 [Boost.MultiIndex](https://www.boost.org/doc/libs/1_67_0/libs/multi_index/doc/index.html)?    
 
 In short, we frequently need objects to be findable in several ways. For example, if we have a container of open TCP sessions, we may want to find sessions based on the ‘full source IP, source port, destination IP, destination port’ tuple, but also on only source IP or destination IP. We might also like to have time ordering to harvest/close old sessions.  
 简言之，我们经常需要以多种方式查找对象。例如，如果我们现在有一个容纳了许多打开的 TCP 会话的容器，我们可能需要基于 ‘完整的源 IP,源端口，目的 IP,目的端口’ 元组来查找会话，但也有可能只依靠源IP或者目的IP来进行查找。我们可能还希望按照时间顺序来 获得/关闭 旧的会话。   
@@ -405,8 +405,8 @@ d_sessionsDestinationIP[dstEndpoint] = tcps;
 While this works, we suddenly have to do a lot of housekeeping. If we want to remove a TCPSession, we have to remember to erase it from all containers, for example, and then free the pointer.  
 虽然这样实现了多重索引，但我们现在不得不处理大量的琐事。例如：如果你想要删除一个 TCP 会话,我们必须记得从所有容器中删除它，然后释放这个指针。
 
-Boost.MultiIndex is a work of art that not only offers containers that can be searched in several ways at the same time, it also offers (un)ordered, unique and non-unique indexes, plus the use of partial keys for lookups, as well as ‘alternate keys’, which enable you to find a std::string key using a char * (which saves the creation of temporaries).   
-Boost.MultiIndex 就像是一件艺术品 ，它不仅提供了可以同时以多种方式进行查找的容器，还提供了（无）有序、去重(unique)和不去重(non-unique)的索引，还提供了使用部分键（也叫作‘可选键’）进行查找的功能，它使你能够通过 `char* `（其中保存了临时创建的变量）来查找 `std::string` 键值。  
+[Boost.MultiIndex](https://www.boost.org/doc/libs/1_67_0/libs/multi_index/doc/index.html) is a work of art that not only offers containers that can be searched in several ways at the same time, it also offers (un)ordered, unique and non-unique indexes, plus the use of partial keys for lookups, as well as ‘alternate keys’, which enable you to find a std::string key using a char * (which saves the creation of temporaries).   
+[Boost.MultiIndex](https://www.boost.org/doc/libs/1_67_0/libs/multi_index/doc/index.html) 就像是一件艺术品 ，它不仅提供了可以同时以多种方式进行查找的容器，还提供了（无）有序、去重(unique)和不去重(non-unique)的索引，还提供了使用部分键（也叫作‘可选键’）进行查找的功能，它使你能够通过 `char* `（其中保存了临时创建的变量）来查找 `std::string` 键值。  
 
 Here’s how we’d lookup TCP sessions. First let’s start with some groundwork ([full code](https://github.com/ahupowerdns/hello-cpp/blob/master/multi.cc)):   
 下面是我们查找 TCP 会话的代码。首先让我们从一些简单的任务做起（[完整代码](https://github.com/ahupowerdns/hello-cpp/blob/master/multi.cc)）：  
@@ -487,7 +487,7 @@ The first line uses our typedef to make an actual instance of our container, the
 第一行我们使用 `typedef` 创建的类型来创建一个容器实例，第二行代码将当前时间，存入一个 `double` 类型变量中。   
 
 Then some magic called a [user-defined literal](https://en.cppreference.com/w/cpp/language/user_literal) happens, which means that "1.2.3.4"_ipv4 gets converted to 0x01020304 - at compile time. To observe how this works, head over to [multi.cc](https://github.com/ahupowerdns/hello-cpp/blob/master/multi.cc) on GitHub. These party tricks are optional when using C++, but constexpr compile time code execution is pretty neat.  
-然后一些被称为 user-define literal 的技巧出现了，这种技巧的作用是： `"1.2.3.4"_ipv4` 在编译时会被转换成 0x01020304。为了观察它是怎样工作的，我们阅读一下 Github 上 [multi.cc](https://github.com/ahupowerdns/hello-cpp/blob/master/multi.cc) 的代码。使用 C++ 时，这些技巧是可选的，但如果使用的话，编译器产生的常量表达式(constexpr)执行代码会非常简洁。  
+然后一些被称为 [user-define literal]((https://en.cppreference.com/w/cpp/language/user_literal)) 的技巧出现了，这种技巧的作用是： `"1.2.3.4"_ipv4` **在编译时**会被转换成 0x01020304。为了观察它是怎样工作的，我们阅读一下 Github 上 [multi.cc](https://github.com/ahupowerdns/hello-cpp/blob/master/multi.cc) 的代码。使用 C++ 时，这些技巧是可选的，但如果使用的话，编译器产生的常量表达式(constexpr)执行代码会非常简洁。  
 
 
 After this has run, our sessions container has 3 entries. Let’s list them all in time order:    
@@ -552,11 +552,11 @@ In this long part 4, we have delved into some of the nitty-gritty of lambdas, an
 Secondly we explored the interaction between algorithms and containers by enhancing our code indexer with the ability to look up partial words, by sorting our unordered container of words into a flat vector. We also looked how some ‘C’ like tricks could be used to make this process both use less memory and be more dangerous.  
 其次，我们改进了代码索引器，把无序容器中的单词排序处理成为一个线性的 vector 容器，然后添加一个查找部分单词的功能，顺便探索了算法和容器之间的交互。我们还研究了怎样使用一些 ‘C’ 语言的技巧来使这个程序在降低部分安全性的情况下使用更少的内存。
 
-We also looked into the rich array of algorithms provided by C++, enabled by the separation of code between containers and algorithms. Before doing any data manipulation, check the existing algorithms if there is something that does what you need already.  
-我们还研究了 C++ 提供的大量算法，这些算法得益于容器和算法的代码是分离的。以及在进行任何数据处理之前，检查一下是否已经存在你需要的算法了。  
+We also looked into the rich array of algorithms provided by C++, enabled by the separation of code between [containers](https://en.cppreference.com/w/cpp/container) and [algorithms](https://en.cppreference.com/w/cpp/algorithm). Before doing any data manipulation, check the existing algorithms if there is something that does what you need already.  
+我们还研究了 C++ 提供的大量算法，这些算法得益于[容器](https://en.cppreference.com/w/cpp/container)和[算法](https://en.cppreference.com/w/cpp/algorithm)的代码是分离的。以及在进行任何数据处理之前，检查一下是否已经存在你需要的算法了。  
 
-Finally we covered further containers found in Boost, including the most magical and powerful Boost.MultiIndex.  
-最后我们介绍了 Boost 中创建的容器，如最神奇和最强大的 `Boost.MultiIndex`。  
+Finally we covered further containers found in Boost, including the most magical and powerful [Boost.MultiIndex](https://www.boost.org/doc/libs/1_67_0/libs/multi_index/doc/index.html).  
+最后我们介绍了 Boost 中创建的容器，如最神奇和最强大的 [Boost.MultiIndex](https://www.boost.org/doc/libs/1_67_0/libs/multi_index/doc/index.html)。  
 
 In part 5 we will round off this series with a discussion of the ultimate smart pointer, std::unique_ptr and the associated concept of std::move. If you have any other favorite things you’d like to see discussed or questions, please do hit me up on @PowerDNS_Bert or bert.hubert@powerdns.com.   
 在第五部分中我们会讨论终极的智能指针 `std::unique_ptr` 和 `std::move` 的相关概念。如果你有任何你想讨论的喜欢的事情或者问题的话，请联系我 [@PowerDNS_Bert](https://twitter.com/PowerDNS_Bert) 或者使用邮箱 bert.hubert@powerdns.com 。
