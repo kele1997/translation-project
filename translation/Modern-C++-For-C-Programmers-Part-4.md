@@ -214,7 +214,7 @@ With this code, we store const pointers to the keys in the allWords unsorted map
 使用这样的代码，我们保存一些 const （只读）的指针，这些指针指向无序 map `allWords` 的键值（key）。然后我们对 `optrwords` 进行排序，`optrwords` 中包含的全是指针，因此在排序中 lambda 表达式中我们进行了解引用。  
 
 If we index the Linux source tree, which contains around 600,000 unique words, this does save us around 14 megabytes of memory, which is nice.  
-如果我们建立了 Linux 源代码索引树，这棵树会包含大约 600,000 个互不相同的单词，这大概需要占用 14 兆字节的内存，这已经很棒了。
+如果我们建立了 Linux 源代码索引树，这棵树会包含大约 600,000 个互不相同的单词，这大概可以为我们节省 14 兆字节的内存，这已经很棒了。
 
 The downside however is that we are now storing raw pointers straight into another container (allWords). As long we don’t modify allWords this is safe. And for some containers, it is even safe if we do make changes. This happens to be the case for [std::unordered_map](https://en.cppreference.com/w/cpp/container/unordered_map), as long as we don’t actually delete an entry we store a pointer to.    
 接下来我们要把这些指针存储到另外一个容器（`allWords`）里面。只要我们不修改 `allWords` 这就是安全的。对于另外一些容器，如果我们进行修改，这甚至仍是安全的。以 [std::unordered_map](https://en.cppreference.com/w/cpp/container/unordered_map) 为例，只要我们没有真的删除那些指针指向的元素，这就是安全的。  
