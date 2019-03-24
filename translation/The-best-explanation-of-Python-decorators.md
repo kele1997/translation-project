@@ -1,4 +1,4 @@
-*__NOTE:__ This is [a question I found on StackOverflow]() which I’ve archived here, because the answer is so effing phenomenal.*
+*__NOTE:__ This is [a question I found on StackOverflow]() which I’ve archived here, because the answer is so effing phenomenal.*  
 *__注意：__ 这是一篇 StackOverflow 上的问题回答，因为这个回答很棒，所以我把它存档了* 
 
 ----
@@ -372,7 +372,7 @@ strange_sandwich()
 # Now: to answer the question...  
 # 现在：是时候回答问题了。。。 
 
-As a conclusion, you can easily see how to answer the question: 
+As a conclusion, you can easily see how to answer the question:   
 现在你很容易就知道怎样回答这个问题了：   
 
 ```python
@@ -946,10 +946,10 @@ print foo.__name__
 
 ----
 
-# How can the decorators be useful?
+# How can the decorators be useful?  
 # 怎样使装饰器变得有用？  
 
-**Now the big question:** What can I use decorators for? 
+**Now the big question:** What can I use decorators for?   
 **现在最大的问题是：** 我可以用装饰器来干嘛？  
 
 Seem cool and powerful, but a practical example would be great. Well, there are 1000 possibilities. Classic uses are extending a function behavior from an external lib (you can’t modify it), or for debugging (you don’t want to modify it because it’s temporary).   
@@ -1058,7 +1058,7 @@ print get_random_futurama_quote()
 #Curse you, merciful Poseidon!
 ```
 
-Python itself provides several decorators: `property`, `staticmethod`, etc. 
+Python itself provides several decorators: `property`, `staticmethod`, etc.   
 Python 本身提供了几种装饰器：  `property` ，`staticmethod`，等
 
 - Django uses decorators to manage caching and view permissions. 
