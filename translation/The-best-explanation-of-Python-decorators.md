@@ -1,10 +1,10 @@
 *__NOTE:__ This is [a question I found on StackOverflow]() which I’ve archived here, because the answer is so effing phenomenal.*
-*__注意：__ 这是一篇 StackOverflow 上的问题回答，因为这个回答很棒，所以我存档在这里* 
+*__注意：__ 这是一篇 StackOverflow 上的问题回答，因为这个回答很棒，所以我把它存档了* 
 
 ----
 
 # Q: How can I make a chain of function decorators in Python?   
-# 问: 我怎样使用 Python 制作一套函数装饰器链？
+# 问: 怎样在 Python 中连续使用多个函数装饰器？
 
 ----
 
@@ -40,7 +40,7 @@ scream = shout
 # Notice we don’t use parentheses: we are not calling the function, we are
 # putting the function `shout` into the variable `scream`. 
 # It means you can then call `shout` from `scream`: 
-# 请注意我们并没有使用括号：我们没有调用函数，我们只是把函数 `shout` 赋值给变量 `scream`
+# 请注意我们并没有使用括号：因此我们没有调用函数，我们只是把函数 `shout` 赋值给变量 `scream`
 # 这意味着我们可以通过 `scream` 调用 `shout` 函数
 
 print scream()
@@ -48,8 +48,8 @@ print scream()
 
 # More than that, it means you can remove the old name `shout`, and
 # the function will still be accessible from `scream` 
-# 除了这些，这还意味着你可以移除旧的名字 `shout`,
-# 之后函数依然可以通过 `scream` 访问
+# 除了这些，这还意味着你可以移除旧的函数名 `shout`,
+# 之后依然可以通过 `scream` 访问函数
 
 del shout
 try:
@@ -70,13 +70,13 @@ Okay! Keep this in mind. We’ll circle back to it shortly.
 记住上面的内容，一会我们还会用得到。
 
 Another interesting property of Python functions is they can be defined... inside another function!  
-Python 函数另一个有趣的性质在于它们可以被定义。。。在另一个函数内部！  
+Python 函数另一个有趣的性质在于它们可以。。。在另一个函数内部定义！  
 
 ```python
 def talk():
 
     # You can define a function on the fly in `talk` ...
-    # 你可以在 `talk` 函数内部动态定义一个函数
+    # 你可以在 `talk` 函数临时定义一个函数
     def whisper(word='yes'):
         return word.lower() + '...'
 
@@ -112,7 +112,7 @@ Okay, still here? Now the fun part...
 现在是比较有趣的部分。。。
 
 You’ve seen that functions are objects. Therefore, functions:  
-你已经知道了函数是 object 对象。因此，函数：  
+你已经知道了函数是 object 对象。此外，函数还：  
 
 - can be assigned to a variable
 - can be defined in another function
@@ -128,7 +128,7 @@ That means that **a function can `return` another function**. Have a look! ☺
 def getTalk(kind='shout'):
 
     # We define functions on the fly
-    # 我们动态定义函数
+    # 我们临时定义一个函数
     def shout(word='yes'):
         return word.capitalize() + '!'
 
@@ -147,7 +147,7 @@ def getTalk(kind='shout'):
         return whisper
 
 # How do you use this strange beast?  
-# 你怎样使用这个奇怪的功能呢？  
+# 你该怎样使用这个奇怪的功能呢？  
 
 # Get the function and assign it to a variable   
 # 调用这个函数，然后把结果赋值给一个变量 
@@ -159,7 +159,7 @@ print talk
 #outputs : <function shout at 0xb7ea817c>
 
 # The object is the one returned by the function:  
-# 这个对象由一个函数返回的
+# 这个对象是由一个函数返回的
 print talk()
 #outputs : Yes!
 
@@ -170,7 +170,7 @@ print getTalk('whisper')()
 ```
 
 But wait...there’s more!  
-但等等...还有更多！  
+但等等...还有一些内容！  
 
 If you can `return` a function, you can pass one as a parameter:  
 如果你可以 `return` 一个函数，那么你也可以把函数当作参数传递：   
@@ -183,12 +183,11 @@ def doSomethingBefore(func):
 doSomethingBefore(scream)
 #outputs: 
 #I do something before then I call the function you gave me  
-# 我在调用你提供的函数之前做了其他事  
 #Yes!
 ```
 
 Well, you just have everything needed to understand decorators. You see, decorators are “wrappers”, which means that **they let you execute code before and after the function they decorate** without modifying the function itself.   
-好，你已经掌握了装饰器所需的全部知识。正如你所见，装饰器是“包装器”，也就是说 **它们允许你在它们装饰的函数前面和后面运行代码** ，而不必修改函数本身。   
+好，你已经掌握了装饰器所需的全部知识。正如你所见，装饰器是“包装器”，也就是说 **它们允许你在它们装饰的函数的前面和后面运行其他代码** ，而不必修改函数本身。   
 
 
 ## Handcrafted decorators
@@ -205,9 +204,9 @@ def my_shiny_new_decorator(a_function_to_decorate):
     # Inside, the decorator defines a function on the fly: the wrapper.
     # This function is going to be wrapped around the original function
     # so it can execute code before and after it.
-    # 在装饰器内部，装饰器动态创建了一个函数： 包装器。
+    # 在装饰器内部，装饰器临时创建了一个函数： 包装器。
     # 这个函数把原来的函数包装起来
-    # 因此它可以在函数的前面和后面执行代码。  
+    # 因此它可以在原函数的前面和后面执行其他代码。  
     def the_wrapper_around_the_original_function():
 
         # Put here the code you want to be executed BEFORE the original 
@@ -216,7 +215,7 @@ def my_shiny_new_decorator(a_function_to_decorate):
         print 'Before the function runs'
 
         # Call the function here (using parentheses)
-        # 在这里调用函数（使用括号）
+        # 在这里调用原函数（使用括号）
         a_function_to_decorate()
 
         # Put here the code you want to be executed AFTER the original 
@@ -245,7 +244,7 @@ a_stand_alone_function()
 # Just pass it to the decorator, it will wrap it dynamically in 
 # any code you want and return you a new function ready to be used:  
 # 好的，你可以装饰这个函数来扩展它的功能
-# 只需要把它传递给装饰器，之后就会动态地包装在你需要的任何代码中，然后返回一个可以使用的新函数：   
+# 只需要把它传递给装饰器，之后就会动态地包装在你需要的任何代码中，然后返回一个满足你需求的新函数：   
 
 a_stand_alone_function_decorated = my_shiny_new_decorator(a_stand_alone_function)
 a_stand_alone_function_decorated()
@@ -255,7 +254,8 @@ a_stand_alone_function_decorated()
 #After the function runs
 ```
 
-Now, you probably want that every time you call `a_stand_alone_function`, `a_stand_alone_function_decorated` is called instead. That’s easy, just overwrite `a_stand_alone_function` with the function returned by `my_shiny_new_decorator`:
+Now, you probably want that every time you call `a_stand_alone_function`, `a_stand_alone_function_decorated` is called instead. That’s easy, just overwrite `a_stand_alone_function` with the function returned by `my_shiny_new_decorator`:   
+现在，你大概想知道每次你调用 `a_stand_alone_function` 的时候，实际上 `a_stand_alone_function_decorated` 会被调用。也就是说，这只是用 `my_shiny_new_decorator` 返回的函数重写了 `a_stand_alone_function` 函数：  
 
 ```python
 a_stand_alone_function = my_shiny_new_decorator(a_stand_alone_function)
@@ -266,11 +266,15 @@ a_stand_alone_function()
 #After the function runs
 
 # And guess what? That’s EXACTLY what decorators do!
+# 你猜怎样着？这实际上就是装饰器的原理！
+
 ```
 
 ## Decorators demystified
+## 装饰器解密
 
-The previous example, using the decorator syntax:
+The previous example, using the decorator syntax:   
+在前面的例子中，使用了装饰器语法：  
 
 ```python
 @my_shiny_new_decorator
@@ -295,7 +299,7 @@ Decorators are just a pythonic variant of the [decorator design pattern][3]. The
 装饰器只是一个 pythonic 的[装饰器设计模式][3]的变种。Python 中内置了许多种传统的设计模式来简化开发过程（例如迭代器）。  
 
 Of course, you can accumulate decorators:  
-当然，你可以累加装饰器：  
+当然，你可以叠加多个装饰器：  
 
 ```python
 def bread(func):
@@ -366,7 +370,7 @@ strange_sandwich()
 ----
 
 # Now: to answer the question...  
-# 现在： 是时候回答问题了。。。 
+# 现在：是时候回答问题了。。。 
 
 As a conclusion, you can easily see how to answer the question: 
 现在你很容易就知道怎样回答这个问题了：   
@@ -384,7 +388,7 @@ def makebold(fn):
     return wrapper
 
 # The decorator to make it italic
-# 生成斜体
+# 生成斜体的装饰器
 def makeitalic(fn):
     # The new function the decorator returns
     # 装饰器返回的新函数
@@ -413,20 +417,20 @@ print say()
 ```
 
 You can now just leave happy, or burn your brain a little bit more and see advanced uses of decorators.   
-你现在应该放下轻松的心态，或者充分使用你的大脑来看看装饰器的高级使用方法了。
+现在你该放下轻松的心态，好好看看装饰器的高级使用方法了。
 
 ----
 
 # Taking decorators to the next level 
-# 使用装饰器的下一个层次
+# 把装饰器传到下一层去
 
 ## Passing arguments to the decorated function
-## 将参数传递给装饰器函数
+## 向装饰器函数传递参数
 
 ```python
 # It’s not black magic, you just have to let the wrapper 
 # pass the argument: 
-# 这并不是黑魔法，你必须让包装器传递参数
+# 这并不是黑魔法，你只是让包装器传递参数而已
 
 def a_decorator_passing_arguments(function_to_decorate):
     def a_wrapper_accepting_arguments(arg1, arg2):
@@ -437,7 +441,7 @@ def a_decorator_passing_arguments(function_to_decorate):
 # Since when you are calling the function returned by the decorator, you are
 # calling the wrapper, passing arguments to the wrapper will let it pass them to 
 # the decorated function
-# 因为当你调用由装饰其返回的函数时，你调用包装器，把参数传递给包装器，这使得把参数传递给装饰器函数
+# 因为当你调用装饰器返回的函数时，实际上你在调用包装器，把参数传递给包装器，这也就完成了把参数传递给装饰器函数
 @a_decorator_passing_arguments
 def print_full_name(first_name, last_name):
     print 'My name is', first_name, last_name
@@ -479,12 +483,12 @@ l.sayYourAge(-3)
 ```
 
 If you’re making general-purpose decorator--one you’ll apply to any function or method, no matter its arguments--then just use `*args, **kwargs`:   
-如果你在创建通用的装饰器 -- 一个适用于任何函数或者方法的装饰器，无论参数是什么 -- 那么只要使用 `*args, **kwargs`:  
+如果你在创建通用的装饰器 -- 一个适用于任何函数或者方法的装饰器，无论参数是什么 -- 那么只要使用 `*args, **kwargs`就可以了:  
 
 ```python
 def a_decorator_passing_arbitrary_arguments(function_to_decorate):
     # The wrapper accepts any arguments
-    # 包装器接受一切参数
+    # 包装器接受任何参数
     def a_wrapper_accepting_arbitrary_arguments(*args, **kwargs):
         print 'Do I have args?:'
         print args
@@ -492,7 +496,7 @@ def a_decorator_passing_arbitrary_arguments(function_to_decorate):
         # Then you unpack the arguments, here *args, **kwargs
         # If you are not familiar with unpacking, check:
         # http://www.saltycrane.com/blog/2008/01/how-to-use-args-and-kwargs-in-python/
-        # 接下来解包参数，也就是这里 *args, **kwargs
+        # 接下来解包参数，也就是这里的 *args, **kwargs
         # 如果你不熟悉解包，可以浏览这个：
         # http://www.saltycrane.com/blog/2008/01/how-to-use-args-and-kwargs-in-python/
         function_to_decorate(*args, **kwargs)
@@ -538,7 +542,7 @@ class Mary(object):
         self.age = 31
     
     @a_decorator_passing_arbitrary_arguments
-    def sayYourAge(self, lie=-3): # You can now add a default value  在这里你可以添加默认值
+    def sayYourAge(self, lie=-3): # You can now add a default value  你可以在这里添加默认值
         print 'I am {0}, what did you think?'.format(self.age + lie)
 
 m = Mary()
@@ -594,10 +598,10 @@ def lazy_function():
 ```
 
 It’s exactly the same: `my_decorator` is called. So when you `@my_decorator`, you are telling Python to call the function *labelled by the variable “`my_decorator`”*.  
-结果是一模一样的：`my_decorator` 被调用了。因此当你使用 `@my_decorator` 时，会让 Python 调用 *“`my_decorator`” 变量所代表的函数*。  
+结果是一模一样的：`my_decorator` 被调用了。因此当你使用 `@my_decorator` 时，Python 会调用 *“`my_decorator`” 变量所代表的函数*。  
 
 This is important! The label you give can point directly to the decorator—**or not**.   
-这很重要！你给的这个变量可以指向装饰器，**也可以不指向**。  
+这很重要！你提供的这个变量可以指向装饰器，**也可以不指向**。  
 
 Let’s get evil. ☺  
 让我们增加点难度。 ☺   
@@ -634,7 +638,7 @@ new_decorator = decorator_maker()
 #As a decorator maker, I return a decorator
 
 # Then we decorate the function
-# 然后我们装饰这个函数
+# 然后我们装饰下面这个函数
             
 def decorated_function():
     print 'I am the decorated function.'
@@ -645,6 +649,7 @@ decorated_function = new_decorator(decorated_function)
 #As the decorator, I return the wrapped function
      
 # Let’s call the function:
+# 调用这个函数
 decorated_function()
 #outputs:
 #I am the wrapper around the decorated function. I am called when you call the decorated function.
@@ -656,7 +661,7 @@ No surprise here.
 没什么意料之外的事情发生。  
 
 Let’s do EXACTLY the same thing, but skip all the pesky intermediate variables:  
-我们再做一次上面的事情，只不过这一次取消所有讨人厌的中间变量：  
+我们再做一次上面的事情，只不过这一次取消掉所有的中间变量：  
 
 ```python
 def decorated_function():
@@ -669,6 +674,7 @@ decorated_function = decorator_maker()(decorated_function)
 #As the decorator, I return the wrapped function.
 
 # Finally:
+# 最后：  
 decorated_function()    
 #outputs:
 #I am the wrapper around the decorated function. I am called when you call the decorated function.
@@ -702,7 +708,7 @@ Hey, did you see that? We used a function call with the `@` syntax! :-)
 你注意到了吗？我们调用了一个 `@` 语法的函数！ :-)    
 
 So, back to decorators with arguments. If we can use functions to generate the decorator on the fly, we can pass arguments to that function, right?  
-所以，回到装饰器的参数上面。如果我们可以使用函数生成一个临时的装饰器，我们也可以把参数传递给这个函数，对吗？  
+所以，回到装饰器的参数上面来。如果我们可以使用函数生成一个临时的装饰器，我们也可以把参数传递给那个函数，对吗？  
 
 ```python
 def decorator_maker_with_arguments(decorator_arg1, decorator_arg2):
@@ -752,7 +758,7 @@ decorated_function_with_arguments('Rajesh', 'Howard')
 ```
 
 Here it is: a decorator with arguments. Arguments can be set as variable:  
-结果是：带参数的装饰器。参数可以被设置为变量：  
+最后得到的就是：带参数的装饰器。参数可以设置为变量：  
 
 ```python
 c1 = 'Penny'
@@ -776,12 +782,12 @@ decorated_function_with_arguments(c2, 'Howard')
 ```
 
 As you can see, you can pass arguments to the decorator like any function using this trick. You can even use `*args, **kwargs` if you wish. But remember decorators are called **only once**. Just when Python imports the script. You can’t dynamically set the arguments afterwards. When you do `import x`, **the function is already decorated**, so you can’t change anything.   
-如你所见，你可以使用这个技巧向装饰器传递参数，就像是向普通函数传递一样。如果你愿意的话，你甚至可以使用 `*args, **kwargs`。但记住，装饰器只会被调用**一次**。只在 Python 导入脚本的时候。在这之后你就无法动态设置参数了。当你执行 `import x` 之后，**函数已经被装饰了**,因此你无法改变任何东西。   
+如你所见，你可以使用这个技巧向装饰器传递参数，就像是向普通函数传递一样。如果你愿意的话，你甚至可以使用 `*args, **kwargs`。但记住，装饰器只会被调用**一次**。只在 Python 导入脚本的时候运行。在这之后你就无法动态设置参数了。当你执行 `import x` 之后，**函数已经被装饰了**,因此之后你无法改变任何东西。   
 
 ----
 
 # Let’s practice: decorating a decorator
-# 让我们练习一下： 装饰一个装饰器 
+# 练习： 装饰一个装饰器 
 
 Okay, as a bonus, I’ll give you a snippet to make any decorator accept generically any argument. After all, in order to accept arguments, we created our decorator using another function.   
 好的，作为奖励，我会提供你一段代码允许装饰器接收任何参数。毕竟，为了接收参数，我们会用另一个函数创建装饰器。   
@@ -808,11 +814,11 @@ def decorator_with_args(decorator_to_enhance):
     saving you the headache to remember how to do that every time.
     """
     """
-    这个函数是一个装饰器。
-    它会装饰其他函数，这个函数也是一个装饰器。
+    这个函数是被用作装饰器。
+    它会装饰其他函数，被装饰的函数也是一个装饰器。
     喝杯咖啡吧。
     它允许任何装饰器接收任意个参数，
-    这样你就不会为每次都要记住怎样处理而头疼了
+    这样你就不会为每次都要考虑怎样处理而头疼了
     """
     # We use the same trick we did to pass arguments
     # 我们使用同样的技巧来传递参数
@@ -820,16 +826,16 @@ def decorator_with_args(decorator_to_enhance):
        
         # We create on the fly a decorator that accepts only a function
         # but keeps the passed arguments from the maker.
-        # 我们创建一个临时装饰器仅可以接收一个函数
-        # 但阻止从 maker 传递参数 
+        # 我们创建一个仅可以接收一个函数的临时装饰器
+        # 但无法从 maker 传递参数 
         def decorator_wrapper(func):
        
             # We return the result of the original decorator, which, after all, 
             # IS JUST AN ORDINARY FUNCTION (which returns a function).
             # Only pitfall: the decorator must have this specific signature or it won’t work: 
-            # 我们返回原装饰器的结果
-            # 返回的只是一个普通函数（这个函数返回一个函数）。
-            # 唯一的陷阱是： 装饰器必须有指定的标记，否则无法运行：   
+            # 原装饰器返回的结果
+            # 其实只是一个普通函数（这个函数返回一个函数）。
+            # 唯一的陷阱是： 装饰器必须有特定的格式，否则无法运行：   
             return decorator_to_enhance(func, *args, **kwargs)
         
         return decorator_wrapper
@@ -843,8 +849,8 @@ It can be used as follows:
 ```python        
 # You create the function you will use as a decorator. And stick a decorator on it :-)
 # Don’t forget, the signature is `decorator(func, *args, **kwargs)`   
-# 创建一个用来作为装饰器的函数。然后加上一个装饰器  :-)  
-# 不要忘记，签名是  `decorator(func, *args, **kwargs)`  
+# 创建一个用作装饰器的函数。然后加上一个装饰器  :-)  
+# 不要忘记，格式是  `decorator(func, *args, **kwargs)`  
 @decorator_with_args 
 def decorated_decorator(func, *args, **kwargs): 
     def wrapper(function_arg1, function_arg2):
@@ -868,7 +874,7 @@ decorated_function('Universe and', 'everything')
 ```
 
 I know, the last time you had this feeling, it was after listening a guy saying: “before understanding recursion, you must first understand recursion”. But now, don’t you feel good about mastering this?   
-我知道，上次你有这么一种感觉，是在听一个人说：“在理解递归之前，你必须首先理解递归” 时。但现在，难道你掌握地不是很好吗？   
+我知道，上次你有这种感觉，是在听一个人说：“在理解递归之前，你必须首先理解递归” 时。但现在，掌握了这个之后你不觉得很棒吗？   
 
 ----
 
@@ -881,18 +887,18 @@ I know, the last time you had this feeling, it was after listening a guy saying:
 - Decorators wrap functions, which can make them hard to debug.  (This gets better from Python >= 2.5; see below.) 
 - 装饰器在 Python 2.4 引进，因此确保你的代码运行的 Python 版本 >=2.4 
 - 装饰器会拖慢函数调用速度。请牢记
-- **你无法解除装饰一个函数。** （确实 *有* 一些技巧可以创建允许解除装饰的装饰器，但是没人会使用它们。）因此一旦函数被装饰了，*所有用到这个函数的代码*就都装饰了。
+- **你无法解除装饰一个函数。** （确实 *有* 一些技巧可以创建允许解除装饰的装饰器，但是没人会使用它们。）因此一旦函数被装饰了，*所有这个函数的代码*就都装饰了。
 - 装饰器包装函数，会使得函数更难调试。 （从 Python >=2.5 有所好转；看下文。）  
 
 The `functools` module was introduced in Python 2.5. It includes the function `functools.wraps()`, which copies the name, module, and docstring of the decorated function to its wrapper.    
 `functools` 模块在 Python 2.5 引进。模块中包含了函数 `functools.wraps()` ，这个函数会把被装饰函数的名字，模块名，docstring 都复制到它的包装器中。  
 
 (Fun fact: `functools.wraps()` is a decorator! ☺)  
-（有趣的事实： `functools.wraps()` 是个装饰器！☺）
+（有趣的事情是： `functools.wraps()` 是个装饰器！☺）
 
 ```python
 # For debugging, the stacktrace prints you the function __name__
-# 至于调试，堆栈跟踪输出函数的 __name__
+# 至于调试，stacktrace 输出函数的 __name__
 def foo():
     print 'foo'
     
@@ -923,7 +929,7 @@ def bar(func):
     # We say that `wrapper`, is wrapping `func`
     # and the magic begins
     # 我们认为 `wrapper` 正在包装 `func` 
-    # 下面就是见证奇迹的时刻  
+    # 神奇的事情发生了 
     @functools.wraps(func)
     def wrapper():
         print 'bar'
@@ -947,10 +953,10 @@ print foo.__name__
 **现在最大的问题是：** 我可以用装饰器来干嘛？  
 
 Seem cool and powerful, but a practical example would be great. Well, there are 1000 possibilities. Classic uses are extending a function behavior from an external lib (you can’t modify it), or for debugging (you don’t want to modify it because it’s temporary).   
-装饰器看起来很酷，很强大，但有一个实用的例子就更好了。好，这大概有 1000 种可能性。常见的使用方法是扩展一个外部库函数（你无法修改）的行为，或者用来调试（你不想修改它，因为它是临时函数）。   
+装饰器看起来很酷，很强大，但有一个实用的例子就更好了。大概有 1000 种可能的例子。常见的使用方法是扩展一个外部库函数（你无法修改）的行为，或者用来调试外部库函数（你不想修改它，因为它是临时函数）。   
 
 You can use them to extend several functions in a DRY’s way, like so:   
-你可以使用装饰器以不造轮子(DRY,Don't Repeat Yourself)的方式扩展函数，就像这样：  
+你可以使用装饰器以 DRY(Don't Repeat Yourself,不重复自己) 的方式扩展函数，就像这样：  
 
 ```python
 def benchmark(func):
@@ -1022,7 +1028,7 @@ print reverse_string('A man, a plan, a canoe, pasta, heros, rajahs, a coloratura
 ```
 
 Of course the good thing with decorators is that you can use them right away on almost anything without rewriting. DRY, I said:  
-当然，装饰器的优点就在于你可以在不重写函数的前提下，使用在几乎任何函数上。不要造轮子（DRY,Don't Repeat Yourself)，正如我说的：  
+当然，装饰器的优点就在于你可以在不重写函数的前提下，使用在几乎任何函数上。DRY（Don't Repeat Yourself,不要重复你自己)，正如我说的：  
 
 ```python
 @counter
@@ -1058,10 +1064,10 @@ Python 本身提供了几种装饰器：  `property` ，`staticmethod`，等
 - Django uses decorators to manage caching and view permissions. 
 - Twisted to fake inlining asynchronous functions calls.
 - Django 使用装饰器来管理缓存，查看权限。 
-- Twisted 用它来假装内联异步函数调用。   
+- Twisted 用它来伪造内联异步函数调用。   
 
 This really is a large playground.  
-它确实有很广阔的用途。  
+装饰器的用途确实很广。  
 
 
   [1]: http://stackoverflow.com/questions/231767/can-somebody-explain-me-the-python-yield-statement/231855#231855
