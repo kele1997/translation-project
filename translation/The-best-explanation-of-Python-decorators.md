@@ -16,7 +16,7 @@ If you are not into long explanations, see [Paolo Bergantino’s answer][2].
 # 装饰器基础
 
 ## Python’s functions are objects
-## Python 的装饰器都是 object 对象
+## Python 的装饰器都是对象
 
 To understand decorators, you must first understand that functions are objects in Python.
 This has important consequences. Let’s see why with a simple example :  
@@ -121,7 +121,7 @@ You’ve seen that functions are objects. Therefore, functions:
 - 可以在另一个函数内部定义  
 
 That means that **a function can `return` another function**. Have a look! ☺  
-这表示 ** 函数可以 `return` 另一个函数 **。看下面吧！☺   
+这表示 **函数可以 `return` 另一个函数**。看下面吧！☺   
 
 
 ```python
@@ -255,7 +255,7 @@ a_stand_alone_function_decorated()
 ```
 
 Now, you probably want that every time you call `a_stand_alone_function`, `a_stand_alone_function_decorated` is called instead. That’s easy, just overwrite `a_stand_alone_function` with the function returned by `my_shiny_new_decorator`:   
-现在，你大概想知道每次你调用 `a_stand_alone_function` 的时候，实际上 `a_stand_alone_function_decorated` 会被调用。也就是说，这只是用 `my_shiny_new_decorator` 返回的函数重写了 `a_stand_alone_function` 函数：  
+现在，你希望每次你调用 `a_stand_alone_function` 的时候，实际上 `a_stand_alone_function_decorated` 会被调用。也就是说，这只是用 `my_shiny_new_decorator` 返回的函数重写了 `a_stand_alone_function` 函数：  
 
 ```python
 a_stand_alone_function = my_shiny_new_decorator(a_stand_alone_function)
@@ -274,7 +274,7 @@ a_stand_alone_function()
 ## 装饰器解密
 
 The previous example, using the decorator syntax:   
-在前面的例子中，使用了装饰器语法：  
+和前面相同的例子，但是使用了装饰器语法：  
 
 ```python
 @my_shiny_new_decorator
@@ -377,7 +377,7 @@ As a conclusion, you can easily see how to answer the question:
 
 ```python
 # The decorator to make it bold
-# 生成加粗(bold)的装饰器
+# 生成粗体(bold)的装饰器
 def makebold(fn):
     # The new function the decorator returns
     # 装饰器返回的新函数
@@ -425,7 +425,7 @@ You can now just leave happy, or burn your brain a little bit more and see advan
 # 把装饰器传到下一层去
 
 ## Passing arguments to the decorated function
-## 向装饰器函数传递参数
+## 把参数传递给被装饰的函数
 
 ```python
 # It’s not black magic, you just have to let the wrapper 
